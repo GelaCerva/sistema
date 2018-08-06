@@ -11,9 +11,13 @@ class Devices(models.Model):
         verbose_name = "device"
         verbose_name_plural = "devices"
 
+    def __str__(self):
+        return "Dispositivo: " + self.device_mac
+
 class Temperatures(models.Model):
     temperature = models.FloatField(null=False, blank=False, default=0.00)
     device = models.ForeignKey(Devices, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True, editable=False)
 
     class Meta:
         verbose_name = "temperatures"

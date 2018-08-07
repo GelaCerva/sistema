@@ -1,20 +1,49 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
-
+from statistics import mean
 from datetime import timedelta, datetime
 from django.utils import timezone
-# Create your views here.
+import json
+
+from django.contrib.auth import logout
+from core.models import *
 
 from core.models import *
 
 @login_required
 def index(request):
-    a_week_ago = datetime.now().date() - timedelta(days=7)
-    today_plus_one = datetime.now().date() + timedelta(days=1)
     context = {}
-    context["temps"] = Temperatures.objects.filter(date__gte=a_week_ago, date__lt=today_plus_one)
-    context["temps"].group_by('device')
-    # context["temps"].annotate(mean_temperature=Avg('temperature'))
+    temps_graph, dates_graph = Temperatures.return_first_dev_obj(7)
+    context["temps_graph"] = json.dumps(temps_graph)
+    context["dates_graph"] = json.dumps(dates_graph)
+    context["temps"] = Temperatures.return_temp_objs_devs(7)
+    context["devices"] = Devices.objects.all()
+    context["title"] = "Dashboard - Última Semana"
 
     return render(request, template_name="dashboard/index.html", context=context)
+
+@login_required
+def report_days(request, days):
+    context = {}
+    temps_graph, dates_graph = Temperatures.return_first_dev_obj(days)
+    context["temps_graph"] = json.dumps(temps_graph)
+    context["dates_graph"] = json.dumps(dates_graph)
+    context["temps"] = Temperatures.return_temp_objs_devs(days)
+    context["devices"] = Devices.objects.all()
+    context["title"] = "Dashboard - {} dias".format(days)
+
+    return render(request, template_name="dashboard/index.html", context=context)
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect('/')
+
+@login_required
+def devices_list(request):
+    context = {}
+    context["devices"] = Devices.objects.all()
+    devs = len(context["devices"])
+    context["title"] = "Listagem - {} Dispostivos".format(devs)
+    return render(request, template_name="dashboard/devices.html", context=context)

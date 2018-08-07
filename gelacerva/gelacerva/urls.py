@@ -28,6 +28,8 @@ urlpatterns = [
     path('accounts/login/', auth_views.LoginView.as_view(), name="login"),
     path('accounts/logout/', d_views.logout_view, name="logout"),
     # path('accounts/', include('django.contrib.auth.urls')),
+    path('report/<int:days>/', d_views.report_days, name="report"),
+    path('devices/', d_views.devices_list, name="devices_list"),
     path('', d_views.index, name="home")
 
 ]

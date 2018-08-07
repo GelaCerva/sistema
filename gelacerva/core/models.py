@@ -80,4 +80,4 @@ class Temperatures(models.Model):
             for temps in vs.values():
                 devs_temps.append(TempObj(mean(temps), date, dev.pk))
             
-            return devs_temps
+        return devs_temps

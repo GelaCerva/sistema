@@ -25,8 +25,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/temp/', TemperatureCreateView.as_view()),
     path('api/dev/', DeviceCreateView.as_view()),
-    # path('/', auth_views.login, {'template_name': 'core/login.html'}, name='login'),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('', d_views.index)
+    path('accounts/login/', auth_views.LoginView.as_view(), name="login"),
+    path('accounts/logout/', d_views.logout_view, name="logout"),
+    # path('accounts/', include('django.contrib.auth.urls')),
+    path('', d_views.index, name="home")
 
 ]

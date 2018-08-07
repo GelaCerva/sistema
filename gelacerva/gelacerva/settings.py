@@ -70,6 +70,10 @@ TEMPLATES = [
     },
 ]
 
+TEMPLATE_DIRS = (
+    os.path.join(os.path.dirname(__file__), 'template').replace('\\','/'),
+)
+
 WSGI_APPLICATION = 'gelacerva.wsgi.application'
 
 
@@ -129,3 +133,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+LOGIN_REDIRECT_URL = 'home'

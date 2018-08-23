@@ -1,0 +1,17 @@
+{% extends 'base_dash.html' %}
+
+{%block title_dash%}{{ title }}{%endblock%}
+
+{% block content %}
+<div class="container">
+<h4 class="my-0 font-weight-normal">Dispositivo #{{device.pk}}</h4>
+<hr>
+<br>
+<form class="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {{ error }}
+    <input type="submit" value="Submit">
+  </form>
+
+{%endblock%}

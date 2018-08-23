@@ -4,26 +4,36 @@
 
 {% block content %}
 <div class="container">
+  <div class="row">
     {% for device in devices %}
     <div class="col-md-3">
+
         <div class="card-deck mb-3 text-center">
             <div class="card mb-4 shadow-sm">
                 <div class="card-header">
-                <h4 class="my-0 font-weight-normal">Free</h4>
+                <h4 class="my-0 font-weight-normal">Dispositivo #{{device.pk}}</h4>
                 </div>
                 <div class="card-body">
-                <h1 class="card-title pricing-card-title">$0 <small class="text-muted">/ mo</small></h1>
+                <h1 class="card-title pricing-card-title">
+                  {% if device.get_last_temperature == None %}
+                  <small class="text-muted">Sem dados</small>
+                  {% else %}
+                  {{device.get_last_temperature}} <small class="text-muted">graus</small>
+                  {% endif %}
+                </h1>
                 <ul class="list-unstyled mt-3 mb-4">
-                    <li>10 users included</li>
-                    <li>2 GB of storage</li>
-                    <li>Email support</li>
-                    <li>Help center access</li>
+                    <li>Oscilação Aceitável: &#177; {{device.temp_variation}} graus</li>
+                    <li>Temperatura Mínima: {{device.get_device_configs.max_temp}}</li>
+                    <li>Temperatura Máxima: {{device.get_device_configs.min_temp}}</li>
                 </ul>
-                <button type="button" class="btn btn-lg btn-block btn-outline-primary">Sign up for free</button>
+                <a href="{% url 'device_edit' device.pk %}">
+                  <button type="button" class="btn btn-lg btn-block btn-outline-primary">Editar dispositivo</button>
+                </a>
                 </div>
             </div>
         </div>
-    </div>
+      </div>
     {% endfor %}
+    </div>
 </div>
 {%endblock%}

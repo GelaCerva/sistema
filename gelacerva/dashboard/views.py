@@ -1,6 +1,9 @@
+from core.forms import DeviceForm
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
+
 from statistics import mean
 from datetime import timedelta, datetime
 from django.utils import timezone
@@ -47,3 +50,19 @@ def devices_list(request):
     devs = len(context["devices"])
     context["title"] = "Listagem - {} Dispostivos".format(devs)
     return render(request, template_name="dashboard/devices.html", context=context)
+
+@login_required
+def device_edit(request, pk):
+    context = {}
+    context["device"] = Devices.objects.get(pk=pk)
+    context["form"] = DeviceForm(request.POST or None, instance=context["device"])
+    if request.method == "POST":
+        if context["form"].is_valid():
+            context["form"].save()
+            import ipdb; ipdb.set_trace()
+            return redirect('/devices/')
+        else:
+            context["error"] = "Erro"
+    context["form"] = DeviceForm(instance=context["device"] or None)
+
+    return render(request, template_name="dashboard/device_edit.html", context=context)

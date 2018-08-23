@@ -30,6 +30,7 @@ urlpatterns = [
     # path('accounts/', include('django.contrib.auth.urls')),
     path('report/<int:days>/', d_views.report_days, name="report"),
     path('devices/', d_views.devices_list, name="devices_list"),
+    path('device/<int:pk>', d_views.device_edit, name="device_edit"),
     path('', d_views.index, name="home")
 
 ]

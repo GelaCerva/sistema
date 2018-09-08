@@ -87,6 +87,8 @@ DATABASES = {
     }
 }
 
+import dj_database_url
+DATABASES['default'] = dj_database_url.config(default='postgres://django_user:django_user@localhost:5432/gelacerva')
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

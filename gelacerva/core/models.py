@@ -45,6 +45,8 @@ class TempObj():
 
 
 class Temperatures(models.Model):
+
+    # TODO colocar um json field para pegar a HTTP request do device
     temperature = models.FloatField(null=False, blank=False, default=0.00)
     device = models.ForeignKey(Devices, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True, editable=False)

@@ -58,7 +58,7 @@ class Temperatures(models.Model):
     def return_first_dev_obj(time_delta):
         a_week_ago = datetime.now().date() - timedelta(days=time_delta)
         today_plus_one = datetime.now().date() + timedelta(days=1)
-        temps_objs = Temperatures.objects.filter(date__gte=a_week_ago, date__lt=today_plus_one, device=1)
+        temps_objs = Temperatures.objects.filter(date__gte=a_week_ago, date__lt=today_plus_one, device=2)
         values = [(obj.temperature, str(obj.date.date())) for obj in temps_objs]
         vs = {}
         for v in values:

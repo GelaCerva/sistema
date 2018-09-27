@@ -59,7 +59,6 @@ def device_edit(request, pk):
     if request.method == "POST":
         if context["form"].is_valid():
             context["form"].save()
-            import ipdb; ipdb.set_trace()
             return redirect('/devices/')
         else:
             context["error"] = "Erro"
